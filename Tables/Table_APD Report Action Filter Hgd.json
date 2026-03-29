@@ -1,0 +1,58 @@
+{
+  "Table": "APD Report Action Filter Hgd",
+  "No": 70310508,
+  "Records": [
+    {
+      "F1": {
+        "value": "CREDITMEMOPDF"
+      },
+      "F2": {
+        "value": 1307
+      },
+      "F3": {
+        "value": 1240373886
+      },
+      "F99": {
+        "value": 3
+      },
+      "F5": {
+        "value": 114
+      },
+      "F8": {
+        "value": 1
+      },
+      "F9": {
+        "value": "114:3"
+      },
+      "F10": {
+        "value": true
+      }
+    },
+    {
+      "F1": {
+        "value": "INVOICEPDF"
+      },
+      "F2": {
+        "value": 1306
+      },
+      "F3": {
+        "value": 1240373886
+      },
+      "F99": {
+        "value": 3
+      },
+      "F5": {
+        "value": 112
+      },
+      "F8": {
+        "value": 1
+      },
+      "F9": {
+        "value": "112:3"
+      },
+      "F10": {
+        "value": true
+      }
+    }
+  ]
+}

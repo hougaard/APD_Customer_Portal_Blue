@@ -1,0 +1,52 @@
+{
+  "Table": "APD Page Content Hgd",
+  "No": 70310526,
+  "Records": [
+    {
+      "F1": {
+        "value": "ai.instructions"
+      },
+      "F4": {
+        "value": 0
+      },
+      "F2": {
+        "value": ""
+      },
+      "F3": {
+        "value": "INTERNAL"
+      },
+      "F5": {
+        "value": ""
+      },
+      "F8": {
+        "value": 0
+      },
+      "F9": {
+        "value": "Instructions for Agent"
+      }
+    },
+    {
+      "F1": {
+        "value": "ai.progress"
+      },
+      "F4": {
+        "value": 0
+      },
+      "F2": {
+        "value": ""
+      },
+      "F3": {
+        "value": "INTERNAL"
+      },
+      "F5": {
+        "value": ""
+      },
+      "F8": {
+        "value": 0
+      },
+      "F9": {
+        "value": "AI Session Progress Notes"
+      }
+    }
+  ]
+}

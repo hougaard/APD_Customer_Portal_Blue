@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Credit Memos - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table("Sales Cr.Memo Header")?>
+  <?filter("Sales Cr.Memo Header","Sell-to Customer No.",no())?>
+
+  <section class="section">
+    <div class="container">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div>
+          <h1 class="page-title"><i class="fas fa-file-alt mr-2" style="color:var(--danger);"></i>Credit Memos</h1>
+          <p class="page-subtitle">Download your posted credit memos as PDF.</p>
+        </div>
+        <a href="<?action('DASHBOARD')?>" class="button btn-ghost">
+          <span class="icon"><i class="fas fa-arrow-left"></i></span><span>Back to Dashboard</span>
+        </a>
+      </div>
+
+      <div class="dark-card p-5">
+        <?if("Sales Cr.Memo Header",'COUNT','>','0')?>
+        <div class="table-container">
+          <table class="table is-fullwidth dark-table">
+            <thead>
+              <tr>
+                <th>Credit Memo No.</th>
+                <th>Date</th>
+                <th>Your Reference</th>
+                <th class="has-text-right">Amount Incl. VAT</th>
+                <th class="has-text-centered">PDF</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?loop("Sales Cr.Memo Header",'+')?>
+              <tr>
+                <td style="color:var(--accent-light);font-weight:600;"><?field("Sales Cr.Memo Header","No.")?></td>
+                <td><?field("Sales Cr.Memo Header","Posting Date")?></td>
+                <td><?field("Sales Cr.Memo Header","Your Reference")?></td>
+                <td class="has-text-right" style="font-weight:600;color:var(--text-bright);"><?field("Sales Cr.Memo Header","Amount Including VAT")?></td>
+                <td class="has-text-centered">
+                  <a href="<?action('CREDITMEMOPDF',"Sales Cr.Memo Header")?>" target="_blank" class="button is-small btn-primary" title="Download PDF">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>PDF</span>
+                  </a>
+                </td>
+              </tr>
+              <?endloop("Sales Cr.Memo Header",-1)?>
+            </tbody>
+          </table>
+        </div>
+        <?else?>
+        <p style="color:var(--text-muted);text-align:center;padding:2rem;"><i class="fas fa-inbox mr-2"></i>No credit memos found.</p>
+        <?endif?>
+      </div>
+
+    </div>
+  </section>
+
+  <?close("Sales Cr.Memo Header")?>
+  <?parse('portal-footer')?>
+</body>
+</html>

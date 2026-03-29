@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Statement - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table("Cust. Ledger Entry")?>
+  <?filter("Cust. Ledger Entry","Customer No.",no())?>
+
+  <section class="section">
+    <div class="container">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div>
+          <h1 class="page-title"><i class="fas fa-file-invoice-dollar mr-2" style="color:var(--accent);"></i>Statement</h1>
+          <p class="page-subtitle">View all your ledger entries and outstanding balances.</p>
+        </div>
+        <a href="<?action('DASHBOARD')?>" class="button btn-ghost">
+          <span class="icon"><i class="fas fa-arrow-left"></i></span><span>Back to Dashboard</span>
+        </a>
+      </div>
+
+      <div class="dark-card p-5">
+        <div class="table-container">
+          <table class="table is-fullwidth dark-table">
+            <thead>
+              <tr>
+                <th>Posting Date</th>
+                <th>Type</th>
+                <th>Document No.</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th class="has-text-right">Original Amount</th>
+                <th class="has-text-right">Remaining Amount</th>
+                <th>Open</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?loop("Cust. Ledger Entry",'-')?>
+              <tr>
+                <td><?field("Cust. Ledger Entry","Posting Date")?></td>
+                <td><span class="badge badge-blue"><?field("Cust. Ledger Entry","Document Type")?></span></td>
+                <td style="color:var(--accent-light);font-weight:500;"><?field("Cust. Ledger Entry","Document No.")?></td>
+                <td><?field("Cust. Ledger Entry",Description)?></td>
+                <td><?field("Cust. Ledger Entry","Due Date")?></td>
+                <td class="has-text-right" style="font-weight:500;"><?field("Cust. Ledger Entry","Original Amount")?></td>
+                <td class="has-text-right" style="font-weight:600;color:var(--text-bright);"><?field("Cust. Ledger Entry","Remaining Amount")?></td>
+                <td>
+                  <?if("Cust. Ledger Entry",Open,'=','Yes')?>
+                    <span class="badge badge-yellow">Open</span>
+                  <?else?>
+                    <span class="badge badge-green">Closed</span>
+                  <?endif?>
+                </td>
+              </tr>
+              <?endloop("Cust. Ledger Entry",1)?>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <?close("Cust. Ledger Entry")?>
+  <?parse('portal-footer')?>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- Portal Footer -->
+<?table("Company Information")?>
+<?get("Company Information")?>
+<footer style="background:#0f172a;border-top:1px solid rgba(59,130,246,0.2);padding:2rem 0;margin-top:auto;">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-4">
+        <p style="color:#e2e8f0;font-weight:600;margin-bottom:0.5rem;">
+          <i class="fas fa-couch mr-2" style="color:#3b82f6;"></i><?field("Company Information",Name)?>
+        </p>
+        <p style="color:#64748b;font-size:0.85rem;">Customer Portal</p>
+      </div>
+      <div class="column is-4">
+        <p style="color:#94a3b8;font-size:0.85rem;">
+          <i class="fas fa-phone mr-2" style="color:#3b82f6;"></i><?field("Company Information","Phone No.")?><br>
+          <i class="fas fa-envelope mr-2 mt-2" style="color:#3b82f6;"></i><?field("Company Information","E-Mail")?>
+        </p>
+      </div>
+      <div class="column is-4 has-text-right">
+        <p style="color:#475569;font-size:0.8rem;">&copy; <?today('yyyy')?> <?field("Company Information",Name)?><br>All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<?close("Company Information")?>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Dashboard - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table(Customer)?>
+  <?get(Customer,no())?>
+  <?table("Cust. Ledger Entry")?>
+  <?filter("Cust. Ledger Entry","Customer No.",no())?>
+  <?table("Sales Header")?>
+  <?filter("Sales Header","Document Type",'Quote')?>
+  <?filter("Sales Header","Sell-to Customer No.",no())?>
+  <?table("Sales Invoice Header")?>
+  <?filter("Sales Invoice Header","Sell-to Customer No.",no())?>
+  <?table("Sales Cr.Memo Header")?>
+  <?filter("Sales Cr.Memo Header","Sell-to Customer No.",no())?>
+
+  <section class="section">
+    <div class="container">
+      <!-- Welcome -->
+      <div class="mb-6">
+        <h1 class="page-title"><i class="fas fa-hand-wave mr-2" style="color:#fbbf24;"></i> Welcome, <?field(Customer,Name)?></h1>
+        <p class="page-subtitle mt-1"><?content('welcome')?></p>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="columns is-multiline mb-5">
+        <div class="column is-3">
+          <a href="<?action('STATEMENT')?>" style="text-decoration:none;">
+            <div class="stat-card">
+              <div class="is-flex is-align-items-center">
+                <div class="stat-icon" style="background:rgba(59,130,246,0.15);color:#60a5fa;">
+                  <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div class="ml-3">
+                  <p style="color:var(--text-muted);font-size:0.8rem;text-transform:uppercase;">Open Entries</p>
+                  <p style="color:var(--text-bright);font-size:1.5rem;font-weight:700;">
+                    <?filter("Cust. Ledger Entry",Open,'Yes')?>
+                    <?count("Cust. Ledger Entry")?>
+                    <?filter("Cust. Ledger Entry",Open,'')?>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-3">
+          <a href="<?action('INVOICES')?>" style="text-decoration:none;">
+            <div class="stat-card">
+              <div class="is-flex is-align-items-center">
+                <div class="stat-icon" style="background:rgba(52,211,153,0.15);color:#34d399;">
+                  <i class="fas fa-file-invoice"></i>
+                </div>
+                <div class="ml-3">
+                  <p style="color:var(--text-muted);font-size:0.8rem;text-transform:uppercase;">Invoices</p>
+                  <p style="color:var(--text-bright);font-size:1.5rem;font-weight:700;"><?count("Sales Invoice Header")?></p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-3">
+          <a href="<?action('ORDERS')?>" style="text-decoration:none;">
+            <div class="stat-card">
+              <div class="is-flex is-align-items-center">
+                <div class="stat-icon" style="background:rgba(251,191,36,0.15);color:#fbbf24;">
+                  <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="ml-3">
+                  <p style="color:var(--text-muted);font-size:0.8rem;text-transform:uppercase;">Quotes</p>
+                  <p style="color:var(--text-bright);font-size:1.5rem;font-weight:700;"><?count("Sales Header")?></p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+        <div class="column is-3">
+          <a href="<?action('CREDITMEMOS')?>" style="text-decoration:none;">
+            <div class="stat-card">
+              <div class="is-flex is-align-items-center">
+                <div class="stat-icon" style="background:rgba(248,113,113,0.15);color:#f87171;">
+                  <i class="fas fa-file-alt"></i>
+                </div>
+                <div class="ml-3">
+                  <p style="color:var(--text-muted);font-size:0.8rem;text-transform:uppercase;">Credit Memos</p>
+                  <p style="color:var(--text-bright);font-size:1.5rem;font-weight:700;"><?count("Sales Cr.Memo Header")?></p>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Recent Open Entries -->
+      <div class="columns">
+        <div class="column is-8">
+          <div class="dark-card p-5">
+            <div class="is-flex is-justify-content-space-between is-align-items-center mb-4">
+              <h2 style="color:var(--text-bright);font-weight:700;font-size:1.1rem;">
+                <i class="fas fa-clock mr-2" style="color:var(--accent);"></i>Recent Open Entries
+              </h2>
+              <a href="<?action('STATEMENT')?>" class="btn-ghost button is-small">View All</a>
+            </div>
+            <?filter("Cust. Ledger Entry",Open,'Yes')?>
+            <?if("Cust. Ledger Entry",'COUNT','>','0')?>
+            <div class="table-container">
+              <table class="table is-fullwidth dark-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Document No.</th>
+                    <th>Description</th>
+                    <th class="has-text-right">Remaining</th>
+                    <th>Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?loop("Cust. Ledger Entry",'-')?>
+                    <tr>
+                      <td><?field("Cust. Ledger Entry","Posting Date")?></td>
+                      <td><span class="badge badge-blue"><?field("Cust. Ledger Entry","Document Type")?></span></td>
+                      <td style="color:var(--accent-light);font-weight:500;"><?field("Cust. Ledger Entry","Document No.")?></td>
+                      <td><?field("Cust. Ledger Entry",Description)?></td>
+                      <td class="has-text-right" style="font-weight:600;color:var(--text-bright);"><?field("Cust. Ledger Entry","Remaining Amount")?></td>
+                      <td><?field("Cust. Ledger Entry","Due Date")?></td>
+                    </tr>
+                  <?endloop("Cust. Ledger Entry",1)?>
+                </tbody>
+              </table>
+            </div>
+            <?else?>
+            <p style="color:var(--text-muted);text-align:center;padding:2rem;"><i class="fas fa-check-circle mr-2" style="color:var(--success);"></i>No open entries — you're all caught up!</p>
+            <?endif?>
+            <?filter("Cust. Ledger Entry",Open,'')?>
+          </div>
+        </div>
+        <div class="column is-4">
+          <!-- Quick Actions Card -->
+          <div class="dark-card p-5 mb-4">
+            <h2 style="color:var(--text-bright);font-weight:700;font-size:1.1rem;margin-bottom:1rem;">
+              <i class="fas fa-bolt mr-2" style="color:#fbbf24;"></i>Quick Actions
+            </h2>
+            <a href="<?action('NEWORDER')?>" class="button btn-primary is-fullwidth mb-3">
+              <span class="icon"><i class="fas fa-plus"></i></span>
+              <span>New Order</span>
+            </a>
+            <a href="<?action('STATEMENT')?>" class="button btn-ghost is-fullwidth mb-3">
+              <span class="icon"><i class="fas fa-file-invoice-dollar"></i></span>
+              <span>View Statement</span>
+            </a>
+            <a href="<?action('SHIPMENTS')?>" class="button btn-ghost is-fullwidth">
+              <span class="icon"><i class="fas fa-truck"></i></span>
+              <span>Track Shipments</span>
+            </a>
+          </div>
+          <!-- Account Info -->
+          <div class="dark-card p-5">
+            <h2 style="color:var(--text-bright);font-weight:700;font-size:1.1rem;margin-bottom:1rem;">
+              <i class="fas fa-building mr-2" style="color:var(--accent);"></i>Your Account
+            </h2>
+            <div style="font-size:0.9rem;">
+              <p style="color:var(--text-muted);margin-bottom:0.3rem;">Customer No.</p>
+              <p style="color:var(--text-bright);font-weight:600;margin-bottom:0.8rem;"><?no?></p>
+              <p style="color:var(--text-muted);margin-bottom:0.3rem;">Name</p>
+              <p style="color:var(--text-bright);font-weight:600;margin-bottom:0.8rem;"><?field(Customer,Name)?></p>
+              <p style="color:var(--text-muted);margin-bottom:0.3rem;">Address</p>
+              <p style="color:var(--text-bright);margin-bottom:0.8rem;"><?field(Customer,Address)?><br><?field(Customer,"Post Code")?> <?field(Customer,City)?></p>
+              <p style="color:var(--text-muted);margin-bottom:0.3rem;">Phone</p>
+              <p style="color:var(--text-bright);margin-bottom:0.8rem;"><?field(Customer,"Phone No.")?></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <?close("Sales Cr.Memo Header")?>
+  <?close("Sales Invoice Header")?>
+  <?close("Sales Header")?>
+  <?close("Cust. Ledger Entry")?>
+  <?close(Customer)?>
+
+  <?parse('portal-footer')?>
+</body>
+</html>

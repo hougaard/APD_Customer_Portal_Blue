@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<?logout?>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - CRONUS Customer Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <?table("Company Information")?>
+  <?get("Company Information")?>
+  <style>
+    :root {
+      --bg-primary: #0f172a;
+      --bg-secondary: #1e293b;
+      --border-color: rgba(59,130,246,0.2);
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --text-bright: #f1f5f9;
+      --text-normal: #cbd5e1;
+      --text-muted: #64748b;
+    }
+    html, body { min-height: 100vh; background: var(--bg-primary) !important; color: var(--text-normal); }
+    body { display: flex; flex-direction: column; }
+    .login-card {
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .input {
+      background: var(--bg-primary) !important;
+      color: var(--text-bright) !important;
+      border-color: var(--border-color) !important;
+    }
+    .input:focus {
+      border-color: var(--accent) !important;
+      box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+    }
+    .input::placeholder { color: var(--text-muted) !important; }
+    .label { color: var(--text-normal) !important; font-weight: 600; }
+    .footer { background: transparent !important; margin-top: auto; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar" style="background:linear-gradient(135deg, #0f172a 0%, #1e293b 100%);border-bottom:1px solid rgba(59,130,246,0.3);box-shadow:0 2px 16px rgba(0,0,0,0.4);">
+    <div class="container">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="#">
+          <span class="icon mr-2" style="color:#3b82f6;"><i class="fas fa-couch fa-lg"></i></span>
+          <span class="has-text-weight-bold is-size-5" style="color:#e2e8f0;"><?field("Company Information",Name)?></span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section" style="flex:1;display:flex;align-items:center;">
+    <div class="container">
+      <div class="columns is-centered is-vcentered">
+        <div class="column is-5">
+          <div class="login-card">
+            <div style="background:linear-gradient(135deg, #1d4ed8, #0ea5e9); padding:1.5rem 2rem;">
+              <h2 class="is-size-4 has-text-weight-bold" style="color:#fff;">
+                <span class="icon mr-2"><i class="fas fa-sign-in-alt" style="color:#fff;"></i></span>
+                Customer Portal
+              </h2>
+              <p class="is-size-7 mt-1" style="color:rgba(255,255,255,0.85);">Sign in to access your account</p>
+            </div>
+            <div style="padding:2rem;">
+              <form onsubmit="TryLogin(); return false;">
+                <div class="field">
+                  <label class="label">User Name</label>
+                  <div class="control has-icons-left">
+                    <input class="input" type="text" placeholder="Enter your username" id="username" name="username" autofocus>
+                    <span class="icon is-small is-left"><i class="fas fa-user" style="color:var(--text-muted);"></i></span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control has-icons-left">
+                    <input class="input" type="password" placeholder="Enter your password" id="password" name="password">
+                    <span class="icon is-small is-left"><i class="fas fa-lock" style="color:var(--text-muted);"></i></span>
+                  </div>
+                </div>
+                <div id="error-msg" class="notification is-hidden py-2 px-3 mb-3" style="font-size:0.85rem;background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3);border-radius:8px;"></div>
+                <div class="field mt-5">
+                  <button id="button" class="button is-fullwidth is-medium" type="submit" style="background:linear-gradient(135deg, #2563eb, #3b82f6);border:none;color:#fff;font-weight:600;">
+                    <span class="icon"><i class="fas fa-sign-in-alt" style="color:#fff;"></i></span>
+                    <span style="color:#fff;">Sign In</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="column is-4">
+          <div class="login-card">
+            <div style="background:linear-gradient(135deg, #0ea5e9, #0284c7); padding:1.5rem 2rem;">
+              <h2 class="is-size-4 has-text-weight-bold" style="color:#fff;">
+                <span class="icon mr-2"><i class="fas fa-couch" style="color:#fff;"></i></span>
+                Welcome!
+              </h2>
+            </div>
+            <div style="padding:2rem;">
+              <p style="color:var(--text-normal);margin-bottom:1rem;">Welcome to the <strong style="color:var(--text-bright);"><?field("Company Information",Name)?></strong> customer portal. Sign in to:</p>
+              <ul style="list-style:none;padding:0;">
+                <li style="padding:0.4rem 0;color:var(--text-normal);"><i class="fas fa-file-invoice-dollar mr-2" style="color:var(--accent);"></i> View your statement</li>
+                <li style="padding:0.4rem 0;color:var(--text-normal);"><i class="fas fa-file-pdf mr-2" style="color:#f87171;"></i> Download invoices &amp; credit memos</li>
+                <li style="padding:0.4rem 0;color:var(--text-normal);"><i class="fas fa-shopping-cart mr-2" style="color:#34d399;"></i> Order new products</li>
+                <li style="padding:0.4rem 0;color:var(--text-normal);"><i class="fas fa-truck mr-2" style="color:var(--accent-light);"></i> Track shipments</li>
+              </ul>
+              <hr style="background:var(--border-color);">
+              <p style="color:var(--text-muted);font-size:0.8rem;">
+                <i class="fas fa-phone mr-1"></i> <?field("Company Information","Phone No.")?><br>
+                <i class="fas fa-envelope mr-1"></i> <?field("Company Information","E-Mail")?>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer py-4">
+    <div class="container has-text-centered">
+      <p class="is-size-7" style="color:var(--text-muted);">&copy; <?today('yyyy')?> <?field("Company Information",Name)?> &mdash; Customer Portal</p>
+    </div>
+  </footer>
+
+  <?close("Company Information")?>
+
+  <script>
+    function TryLogin() {
+      document.body.style.cursor = 'wait';
+      var button = document.getElementById('button');
+      var errorMsg = document.getElementById('error-msg');
+      button.disabled = true;
+      button.classList.add('is-loading');
+      errorMsg.classList.add('is-hidden');
+      var username = document.getElementById('username').value;
+      var password = document.getElementById('password').value;
+      const Http = new XMLHttpRequest();
+      Http.open("GET", '<?action('LoginCheck')?>&username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password) + '&ajax=true');
+      Http.send();
+      Http.onreadystatechange = (e) => {
+        if (Http.readyState == 4 && Http.status == 200) {
+          document.body.style.cursor = 'default';
+          if (Http.responseText == 'OK!') {
+            window.location.href = '<?action('DASHBOARD')?>';
+          } else {
+            errorMsg.textContent = 'Login failed. Please check your credentials and try again.';
+            errorMsg.classList.remove('is-hidden');
+            button.disabled = false;
+            button.classList.remove('is-loading');
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

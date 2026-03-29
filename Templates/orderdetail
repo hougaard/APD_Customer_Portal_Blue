@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Order Detail - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table("Sales Header")?>
+  <?filter("Sales Header","Document Type",'Quote')?>
+  <?filter("Sales Header","Sell-to Customer No.",no())?>
+  <?filter("Sales Header","No.",Parm('docno'))?>
+  <?loop("Sales Header",'-')?>
+
+  <?table("Sales Line")?>
+  <?filter("Sales Line","Document Type",'Quote')?>
+  <?filter("Sales Line","Document No.",Parm('docno'))?>
+  <?filter("Sales Line",Type,'Item')?>
+
+  <?table(Item)?>
+
+  <section class="section">
+    <div class="container">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div>
+          <h1 class="page-title"><i class="fas fa-file-alt mr-2" style="color:var(--accent);"></i>Quote <?field("Sales Header","No.")?></h1>
+          <p class="page-subtitle">Date: <?field("Sales Header","Order Date")?> &bull; Reference: <?field("Sales Header","Your Reference")?></p>
+        </div>
+        <a href="<?action('ORDERS')?>" class="button btn-ghost">
+          <span class="icon"><i class="fas fa-arrow-left"></i></span><span>Back to Orders</span>
+        </a>
+      </div>
+
+      <!-- Add Item Form -->
+      <div class="dark-card p-5 mb-5">
+        <h2 style="color:var(--text-bright);font-weight:700;font-size:1.1rem;margin-bottom:1rem;">
+          <i class="fas fa-plus-circle mr-2" style="color:var(--success);"></i>Add Item
+        </h2>
+        <form method="POST" action="<?action('ADDITEM')?>&docno=<?raw("Sales Header","No.")?>">
+          <div class="columns">
+            <div class="column is-4">
+              <div class="field">
+                <label class="label">Item No.</label>
+                <div class="control">
+                  <input class="input" type="text" name="itemno" placeholder="Enter item number" required>
+                </div>
+              </div>
+            </div>
+            <div class="column is-3">
+              <div class="field">
+                <label class="label">Quantity</label>
+                <div class="control">
+                  <input class="input" type="number" name="qty" placeholder="1" min="1" value="1" required>
+                </div>
+              </div>
+            </div>
+            <div class="column is-3 is-flex is-align-items-flex-end">
+              <button type="submit" class="button btn-primary">
+                <span class="icon"><i class="fas fa-cart-plus"></i></span>
+                <span>Add to Order</span>
+              </button>
+            </div>
+          </div>
+        </form>
+        <!-- Available Items -->
+        <details style="margin-top:0.5rem;">
+          <summary style="color:var(--accent-light);cursor:pointer;font-size:0.9rem;"><i class="fas fa-list mr-1"></i> Browse available items</summary>
+          <div class="table-container mt-3" style="max-height:300px;overflow-y:auto;">
+            <table class="table is-fullwidth dark-table is-narrow">
+              <thead><tr><th>Item No.</th><th>Description</th><th>Unit Price</th></tr></thead>
+              <tbody>
+                <?loop(Item,'-')?>
+                <tr>
+                  <td style="color:var(--accent-light);font-weight:500;"><?field(Item,"No.")?></td>
+                  <td><?field(Item,Description)?></td>
+                  <td><?field(Item,"Unit Price")?></td>
+                </tr>
+                <?endloop(Item,1)?>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+
+      <!-- Order Lines -->
+      <div class="dark-card p-5">
+        <h2 style="color:var(--text-bright);font-weight:700;font-size:1.1rem;margin-bottom:1rem;">
+          <i class="fas fa-list mr-2" style="color:var(--accent);"></i>Order Lines
+        </h2>
+        <?if("Sales Line",'COUNT','>','0')?>
+        <div class="table-container">
+          <table class="table is-fullwidth dark-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item No.</th>
+                <th>Description</th>
+                <th class="has-text-right">Quantity</th>
+                <th class="has-text-right">Unit Price</th>
+                <th class="has-text-right">Line Amount</th>
+                <th class="has-text-centered">Remove</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?loop("Sales Line",'-')?>
+              <tr>
+                <td style="color:var(--text-muted);"><?loopno("Sales Line")?></td>
+                <td style="color:var(--accent-light);font-weight:500;"><?field("Sales Line","No.")?></td>
+                <td><?field("Sales Line",Description)?></td>
+                <td class="has-text-right"><?field("Sales Line",Quantity)?></td>
+                <td class="has-text-right"><?field("Sales Line","Unit Price")?></td>
+                <td class="has-text-right" style="font-weight:600;color:var(--text-bright);"><?field("Sales Line","Line Amount")?></td>
+                <td class="has-text-centered">
+                  <a href="<?action('DELETEORDERLINE')?>&docno=<?raw("Sales Line","Document No.")?>&lineno=<?raw("Sales Line","Line No.")?>" class="button is-small" style="background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.3);" onclick="return confirm('Remove this line?')">
+                    <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                  </a>
+                </td>
+              </tr>
+              <?endloop("Sales Line",1)?>
+            </tbody>
+          </table>
+        </div>
+        <!-- Total -->
+        <div class="has-text-right mt-4" style="border-top:1px solid var(--border-color);padding-top:1rem;">
+          <span style="color:var(--text-muted);font-size:0.9rem;margin-right:1rem;">Total Amount Incl. VAT:</span>
+          <span style="color:var(--text-bright);font-size:1.5rem;font-weight:700;"><?field("Sales Header","Amount Including VAT")?></span>
+        </div>
+        <?else?>
+        <p style="color:var(--text-muted);text-align:center;padding:2rem;"><i class="fas fa-inbox mr-2"></i>No items added yet. Use the form above to add items.</p>
+        <?endif?>
+      </div>
+
+    </div>
+  </section>
+
+  <?close(Item)?>
+  <?close("Sales Line")?>
+  <?endloop("Sales Header",1)?>
+  <?close("Sales Header")?>
+
+  <?parse('portal-footer')?>
+</body>
+</html>

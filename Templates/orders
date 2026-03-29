@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Orders - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table("Sales Header")?>
+  <?filter("Sales Header","Document Type",'Quote')?>
+  <?filter("Sales Header","Sell-to Customer No.",no())?>
+
+  <section class="section">
+    <div class="container">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div>
+          <h1 class="page-title"><i class="fas fa-shopping-cart mr-2" style="color:var(--warning);"></i>My Orders</h1>
+          <p class="page-subtitle">Manage your sales quotes and place new orders.</p>
+        </div>
+        <div>
+          <a href="<?action('DASHBOARD')?>" class="button btn-ghost mr-2">
+            <span class="icon"><i class="fas fa-arrow-left"></i></span><span>Dashboard</span>
+          </a>
+          <a href="<?action('NEWORDER')?>" class="button btn-primary">
+            <span class="icon"><i class="fas fa-plus"></i></span><span>New Order</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="dark-card p-5">
+        <?if("Sales Header",'COUNT','>','0')?>
+        <div class="table-container">
+          <table class="table is-fullwidth dark-table">
+            <thead>
+              <tr>
+                <th>Quote No.</th>
+                <th>Date</th>
+                <th>Your Reference</th>
+                <th class="has-text-right">Amount</th>
+                <th class="has-text-centered">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?loop("Sales Header",'+')?>
+              <tr>
+                <td style="color:var(--accent-light);font-weight:600;"><?field("Sales Header","No.")?></td>
+                <td><?field("Sales Header","Order Date")?></td>
+                <td><?field("Sales Header","Your Reference")?></td>
+                <td class="has-text-right" style="font-weight:600;color:var(--text-bright);"><?field("Sales Header","Amount Including VAT")?></td>
+                <td class="has-text-centered">
+                  <a href="<?action('ORDERDETAIL',"Sales Header")?>" class="button is-small btn-ghost">
+                    <span class="icon"><i class="fas fa-eye"></i></span>
+                    <span>View / Edit</span>
+                  </a>
+                </td>
+              </tr>
+              <?endloop("Sales Header",-1)?>
+            </tbody>
+          </table>
+        </div>
+        <?else?>
+        <div style="text-align:center;padding:3rem;">
+          <i class="fas fa-shopping-cart fa-3x mb-4" style="color:var(--text-muted);"></i>
+          <p style="color:var(--text-muted);margin-bottom:1rem;">No orders yet. Start by creating a new order!</p>
+          <a href="<?action('NEWORDER')?>" class="button btn-primary">
+            <span class="icon"><i class="fas fa-plus"></i></span><span>Create New Order</span>
+          </a>
+        </div>
+        <?endif?>
+      </div>
+
+    </div>
+  </section>
+
+  <?close("Sales Header")?>
+  <?parse('portal-footer')?>
+</body>
+</html>

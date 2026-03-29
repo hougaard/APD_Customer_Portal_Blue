@@ -1,0 +1,22 @@
+{
+  "Table": "APD Content Type Hgd",
+  "No": 70310525,
+  "Records": [
+    {
+      "F1": {
+        "value": "AFR"
+      },
+      "F2": {
+        "value": "Advanced Financial Reporting"
+      }
+    },
+    {
+      "F1": {
+        "value": "INTERNAL"
+      },
+      "F2": {
+        "value": "Internal Stuff"
+      }
+    }
+  ]
+}

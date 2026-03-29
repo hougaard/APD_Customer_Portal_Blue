@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Shipments - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table("Sales Shipment Header")?>
+
+  <section class="section">
+    <div class="container">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div>
+          <h1 class="page-title"><i class="fas fa-truck mr-2" style="color:var(--accent-light);"></i>Shipments</h1>
+          <p class="page-subtitle">Track your deliveries and shipment history.</p>
+        </div>
+        <a href="<?action('DASHBOARD')?>" class="button btn-ghost">
+          <span class="icon"><i class="fas fa-arrow-left"></i></span><span>Back to Dashboard</span>
+        </a>
+      </div>
+
+      <div class="dark-card p-5">
+        <?if("Sales Shipment Header",'COUNT','>','0')?>
+        <div class="table-container">
+          <table class="table is-fullwidth dark-table">
+            <thead>
+              <tr>
+                <th>Shipment No.</th>
+                <th>Shipment Date</th>
+                <th>Order No.</th>
+                <th>Your Reference</th>
+                <th class="has-text-centered">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?loop("Sales Shipment Header",'+')?>
+              <tr>
+                <td style="color:var(--accent-light);font-weight:600;"><?field("Sales Shipment Header","No.")?></td>
+                <td><?field("Sales Shipment Header","Shipment Date")?></td>
+                <td><?field("Sales Shipment Header","Order No.")?></td>
+                <td><?field("Sales Shipment Header","Your Reference")?></td>
+                <td class="has-text-centered">
+                  <a href="<?action('SHIPMENTDETAIL',"Sales Shipment Header")?>" class="button is-small btn-ghost">
+                    <span class="icon"><i class="fas fa-eye"></i></span>
+                    <span>View</span>
+                  </a>
+                </td>
+              </tr>
+              <?endloop("Sales Shipment Header",-1)?>
+            </tbody>
+          </table>
+        </div>
+        <?else?>
+        <p style="color:var(--text-muted);text-align:center;padding:2rem;"><i class="fas fa-truck mr-2"></i>No shipments found.</p>
+        <?endif?>
+      </div>
+
+    </div>
+  </section>
+
+  <?close("Sales Shipment Header")?>
+  <?parse('portal-footer')?>
+</body>
+</html>

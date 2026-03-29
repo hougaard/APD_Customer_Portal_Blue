@@ -1,0 +1,38 @@
+{
+  "Table": "APD Security Profile Hgd",
+  "No": 70310514,
+  "Records": [
+    {
+      "F1": {
+        "value": "CUSTOMER"
+      },
+      "F2": {
+        "value": ""
+      }
+    },
+    {
+      "F1": {
+        "value": "INTERNAL"
+      },
+      "F2": {
+        "value": ""
+      }
+    },
+    {
+      "F1": {
+        "value": "SUBCONTRAC"
+      },
+      "F2": {
+        "value": ""
+      }
+    },
+    {
+      "F1": {
+        "value": "VENDOR"
+      },
+      "F2": {
+        "value": ""
+      }
+    }
+  ]
+}

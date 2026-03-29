@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Shipment Detail - Customer Portal</title>
+  <?parse('portal-head')?>
+</head>
+<body>
+  <?parse('portal-header')?>
+
+  <?table("Sales Shipment Header")?>
+  <?filter("Sales Shipment Header","No.",Parm('110:3'))?>
+
+  <?table("Sales Shipment Line")?>
+  <?filter("Sales Shipment Line","Document No.",field("Sales Shipment Header","No."))?>
+  <?filter("Sales Shipment Line",Type,'Item')?>
+
+  <section class="section">
+    <div class="container">
+      <div class="is-flex is-justify-content-space-between is-align-items-center mb-5">
+        <div>
+          <h1 class="page-title"><i class="fas fa-truck mr-2" style="color:var(--accent-light);"></i>Shipment <?field("Sales Shipment Header","No.")?></h1>
+          <p class="page-subtitle">Shipped: <?field("Sales Shipment Header","Shipment Date")?> &bull; Order: <?field("Sales Shipment Header","Order No.")?></p>
+        </div>
+        <a href="<?action('SHIPMENTS')?>" class="button btn-ghost">
+          <span class="icon"><i class="fas fa-arrow-left"></i></span><span>Back to Shipments</span>
+        </a>
+      </div>
+
+      <div class="dark-card p-5">
+        <h2 style="color:var(--text-bright);font-weight:700;font-size:1.1rem;margin-bottom:1rem;">
+          <i class="fas fa-box mr-2" style="color:var(--accent);"></i>Shipped Items
+        </h2>
+        <?if("Sales Shipment Line",'COUNT','>','0')?>
+        <div class="table-container">
+          <table class="table is-fullwidth dark-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item No.</th>
+                <th>Description</th>
+                <th class="has-text-right">Quantity</th>
+                <th>Unit of Measure</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?loop("Sales Shipment Line",'-')?>
+              <tr>
+                <td style="color:var(--text-muted);"><?loopno("Sales Shipment Line")?></td>
+                <td style="color:var(--accent-light);font-weight:500;"><?field("Sales Shipment Line","No.")?></td>
+                <td><?field("Sales Shipment Line",Description)?></td>
+                <td class="has-text-right" style="font-weight:600;"><?field("Sales Shipment Line",Quantity)?></td>
+                <td><?field("Sales Shipment Line","Unit of Measure Code")?></td>
+              </tr>
+              <?endloop("Sales Shipment Line",1)?>
+            </tbody>
+          </table>
+        </div>
+        <?else?>
+        <p style="color:var(--text-muted);text-align:center;padding:2rem;">No item lines in this shipment.</p>
+        <?endif?>
+      </div>
+
+    </div>
+  </section>
+
+  <?close("Sales Shipment Line")?>
+  <?close("Sales Shipment Header")?>
+
+  <?parse('portal-footer')?>
+</body>
+</html>
